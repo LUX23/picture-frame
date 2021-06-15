@@ -22,43 +22,64 @@ from flask_bootstrap import Bootstrap
 bootstrap = Bootstrap(app)
 
 class ImageForm(FlaskForm):
-    upload = FileField('Load image', validators=[
-        FileRequired(),
-        FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
-    recaptcha = RecaptchaField()
-    user = TextField()
-    submit = SubmitField('Send')
- 
- 
-def rotate_image(file_name, choice):
-    im = Image.open(file_name)
-    fig = plt.figure(figsize=(6, 4))
-    ax = fig.add_subplot()
-    data = np.random.randint(0, 255, (100, 100))
-    ax.imshow(im, cmap='plasma')
-    b = ax.pcolormesh(data, edgecolors='black', cmap='plasma')
-    fig.colorbar(b, ax=ax)
-    gr_path = "./static/graph.png"
-    sns.displot(data)
-    plt.savefig(gr_path)
-    plt.close()
-    im = Image.open(file_name)
-    x, y = im.size
-    im = im.rotate(int(choice))
-    im.save(file_name)
+ size = StringField('size', validators = [DataRequired()])
+ upload = FileField('Load image', validators=[
+ FileRequired(),
+ FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
+ recaptcha = RecaptchaField()
+ submit = SubmitField('Send')
 
-@app.route("/net", methods=['GET', 'POST'])
-def image():
-    form = ImageForm()
-    filename = None
-    filename_graph=None
-    if form.validate_on_submit():
-        photo = form.upload.data.filename.split('.')[-1]
-        filename = os.path.join('./static', f'photo.{photo}')
-        filename_graph = os.path.join('./static', f'graph.png')
-        form.upload.data.save(filename)
-        rotate_image(filename, form.user.data)
-    return render_template('net.html', form=form, image_name=filename,filename_graph=filename_graph)
+from werkzeug.utils import secure_filename
+import os
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def frame(filename,size):
+ print(filename)
+ img= Image.open(filename)
+ fig = plt.figure(figsize=(6, 4))
+ ax = fig.add_subplot()
+ data = np.random.randint(0, 255, (100, 100))
+ ax.imshow(img, cmap='plasma')
+ b = ax.pcolormesh(data, edgecolors='black', cmap='plasma')
+ fig.colorbar(b, ax=ax)
+ graph = "./static/graph.png"
+ sns.displot(data)
+ #plt.show()
+ plt.savefig(graph)
+ plt.close()
+
+ size=int(size)
+ height = 224
+ width = 224
+ img= np.array(img.resize((height,width)))/255.0
+ print(size)
+ img[:size,:,1] = 0
+ img[:,0:size,1] = 0
+ img[:,224-size:,1] = 0
+ img[224-size:,:,1] = 0
+ img = Image.fromarray((img * 255).astype(np.uint8))
+ print(img)
+ new = "./static/new.png"
+ print(img)
+ img.save(new)
+ return new, graoh
+
+@app.route("/net",methods=['GET', 'POST'])
+def net():
+ form = ImageForm()
+ filename=None
+ newfilename=None
+ grname=None
+ if form.validate_on_submit():
+  filename = os.path.join('./static', secure_filename(form.upload.data.filename))
+  sz=form.size.data
+  form.upload.data.save(filename)
+  newfilename, grname = frame(filename,sz)
+ 
+ return render_template('net.html',form=form,image_name=newfilename,gr_name=grname)
 
 if __name__ == "__main__":
  app.run(host='127.0.0.1',port=5000)
