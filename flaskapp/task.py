@@ -27,7 +27,7 @@ class NetForm(FlaskForm):
  FileRequired(),
  FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
  recaptcha = RecaptchaField()
- submit = SubmitField('send')
+ submit = SubmitField('Send')
 from werkzeug.utils import secure_filename
 import os
 import numpy as np
@@ -54,10 +54,10 @@ def draw(filename,size):
  width = 224
  img= np.array(img.resize((height,width)))/255.0
  print(size)
- img[:size,:,1] = (1.0,0,0)
- img[:,0:size,1] = (1.0,0,0)
- img[:,224-size:,1] = (1.0,0,0)
- img[224-size:,:,1] = (1.0,0,0)
+ img[:size,:,1] = (1.0,0.0,0.0)
+ img[:,0:size,1] = (1.0,0.0,0.0)
+ img[:,224-size:,1] = (1.0,0.0,0.0)
+ img[224-size:,:,1] = (1.0,0.0,0.0)
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
  new_path = "./static/new.png"
