@@ -49,7 +49,7 @@ def draw(filename,size,rcolor,gcolor,bcolor):
  ax.imshow(img, cmap='plasma')
  b = ax.pcolormesh(data, edgecolors='black', cmap='plasma')
  fig.colorbar(b, ax=ax)
- gr_path = "./static/newgr.png"
+ gr_path = "./static/graph.png"
  sns.displot(data)
  #plt.show()
  plt.savefig(gr_path)
