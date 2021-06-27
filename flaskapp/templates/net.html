@@ -4,6 +4,7 @@
 {% block title %}This is an page{% endblock %}
 {% block content %}
 {{ wtf.quick_form(form, method='post',enctype="multipart/form-data", action="net") }}
+
 <table border="1" width="100%" cellpadding="5">
  <tr>
 <td><h2>Image: </h2>
@@ -23,4 +24,5 @@
 {% endif %}</td>
     </tr>
  </table>
+
 {% endblock %}
