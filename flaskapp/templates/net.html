@@ -4,21 +4,23 @@
 {% block title %}This is an page{% endblock %}
 {% block content %}
 {{ wtf.quick_form(form, method='post',enctype="multipart/form-data", action="net") }}
-
-<h2>Graph: </h2> 
-{% if gr_name %}
- <p>{{gr_name}}
- <p><img src={{gr_name}}/>
+<table border="1" width="100%" cellpadding="5">
+ <tr>
+<td><h2>Image: </h2>
+{% if image_name %}
+ <p>{{image_name}}
+ <p><img src={{image_name}} class="img-rounded" alt="My Image" width = 224 height=224 />
 {% else %}
  <p> There is no image yet </p>
-{% endif %}
-
-<h2>Image: </h2>
-{% if image_name %}
-  <p>{{image_name}}
-  <p><img src={{image_name}} class="img-rounded" alt="My Image" width = 224 height=224 />
+{% endif %}</td>
+  
+<td><h2>Graph: </h2> 
+{% if gr_name2 %}
+ <p>{{gr_name2}}
+ <p><img src={{gr_name2}}/>
 {% else %}
-  <p> There is no image yet </p>
-{% endif %}
-
+ <p> There is no image yet </p>
+{% endif %}</td>
+    </tr>
+ </table>
 {% endblock %}
