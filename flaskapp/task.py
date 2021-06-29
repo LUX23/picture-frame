@@ -22,7 +22,7 @@ from flask_bootstrap import Bootstrap
 bootstrap = Bootstrap(app)
 
 class NetForm(FlaskForm):
- size = StringField('Size', validators = [DataRequired()])
+ size = StringField('Введите размер рамок', validators = [DataRequired()])
  
  r_out = StringField('Выберите уровень красного для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
  g_out = StringField('Выберите уровень зеленого для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
@@ -34,9 +34,9 @@ class NetForm(FlaskForm):
  
  upload = FileField('Load image', validators=[
  FileRequired(),
- FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
+ FileAllowed(['jpg', 'png', 'jpeg'], 'Только изображения!')])
  recaptcha = RecaptchaField()
- submit = SubmitField('Send')
+ submit = SubmitField('Отправить')
 from werkzeug.utils import secure_filename
 import os
 import numpy as np
