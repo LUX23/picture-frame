@@ -78,14 +78,22 @@ def draw(filename,size,rcolor,gcolor,bcolor):
  img[224-(size*2):,:,0] = (1.0 - rcolor)
  img[224-size:,:,0] = rcolor
 
+ img[:(size*2),:,1] = (1.0 - gcolor)
  img[:size,:,1] = gcolor
+ img[:,0:(size*2),1] = (1.0 - gcolor)
  img[:,0:size,1] = gcolor
+ img[:,224-(size*2):,1] = (1.0 - gcolor)
  img[:,224-size:,1] = gcolor
+ img[224-(size*2):,:,1] = (1.0 - gcolor)
  img[224-size:,:,1] = gcolor
 
+ img[:(size*2),:,2] = (1.0 - bcolor)
  img[:size,:,2] = bcolor
+ img[:,0:(size*2),2] = (1.0 - bcolor)
  img[:,0:size,2] = bcolor
+ img[:,224-(size*2):,2] = (1.0 - bcolor)
  img[:,224-size:,2] = bcolor
+ img[224-(size*2):,:,2] = (1.0 - bcolor)
  img[224-size:,:,2] = bcolor
  
  img = Image.fromarray((img * 255).astype(np.uint8))
