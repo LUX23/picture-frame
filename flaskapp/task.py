@@ -10,7 +10,6 @@ from flask_wtf import FlaskForm,RecaptchaField
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-
 SECRET_KEY = 'secret'
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_USE_SSL'] = False
@@ -23,16 +22,15 @@ bootstrap = Bootstrap(app)
 
 class NetForm(FlaskForm):
  size = StringField('Введите размер рамок', validators = [DataRequired()])
-
- rcolor = StringField('Выберите уровень красного для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
+ rcolor = StringField('Выберите уровень красного для рамок. От 0.0 до 1.0', validators = [DataRequired()])
  gcolor = StringField('Выберите уровень зеленого для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
  bcolor = StringField('Выберите уровень синего для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
-
  upload = FileField('Загрузите изображение', validators=[
  FileRequired(),
  FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
  recaptcha = RecaptchaField()
  submit = SubmitField('Отправить')
+
 from werkzeug.utils import secure_filename
 import os
 import numpy as np
@@ -40,17 +38,17 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def draw(filename,size):
+def draw(filename,size,rcolor,gcolor,bcolor):
  print(filename)
  img= Image.open(filename)
- 
+
  fig = plt.figure(figsize=(6, 4))
  ax = fig.add_subplot()
  data = np.random.randint(0, 255, (100, 100))
  ax.imshow(img, cmap='plasma')
  b = ax.pcolormesh(data, edgecolors='black', cmap='plasma')
  fig.colorbar(b, ax=ax)
- gr_path = "./static/graph.png"
+ gr_path = "./static/newgr.png"
  sns.displot(data)
  #plt.show()
  plt.savefig(gr_path)
@@ -66,15 +64,16 @@ def draw(filename,size):
  img= np.array(img.resize((height,width)))/255.0
  print(size)
  
- img[:size,:,1] = 1
- img[:,0:size,1] = 1
- img[:,224-size:,1] = 1
- img[224-size:,:,1] = 1
+ img[:size,:,:] = 1
+ img[:,0:size,:] = 1
+ img[:,224-size:,:] = 1
+ img[224-size:,:,:] = 1
  
  img[:,0:size,0] = rcolor
  img[:,224-size:,0] = rcolor
  img[224-size:,:,0] = rcolor
  img[224-size:,:,0] = rcolor
+
 
  img[:size,:,1] = gcolor
  img[:,0:size,1] = gcolor
@@ -101,7 +100,7 @@ def net():
  grname=None
  if form.validate_on_submit():
   filename = os.path.join('./static', secure_filename(form.upload.data.filename))
-  
+ 
   sz=form.size.data
   sr=form.rcolor.data
   sg=form.gcolor.data
@@ -109,6 +108,7 @@ def net():
   
   form.upload.data.save(filename)
   newfilename, grname = draw(filename,sz,sr,sg,sb)
+
  return render_template('net.html',form=form,image_name=newfilename,gr_name=grname)
 
 if __name__ == "__main__":
