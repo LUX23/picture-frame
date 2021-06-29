@@ -61,16 +61,19 @@ def draw(filename,size):
  plt.close()
  
  size=int(size)
+ r_out = float(r_out)
+ g_out = float(g_out)
+ b_out = float(b_out)
  
  height = 224
  width = 224
  img= np.array(img.resize((height,width)))/255.0
  print(size)
  
- img[:size,:,1] = 1
- img[:,0:size,1] = 1
- img[:,224-size:,1] = 1
- img[224-size:,:,1] = 1
+ img[:size,:,1] = r_out
+ img[:,0:size,1] = r_out
+ img[:,224-size:,1] = r_out
+ img[224-size:,:,1] = r_out
  
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
