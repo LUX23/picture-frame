@@ -70,9 +70,13 @@ def draw(filename,size,rcolor,gcolor,bcolor):
  img[224-(size*2):,:,:] = 0
  
  img[:,0:size,0] = rcolor
+ img[:,0:(size*2),0] = 1.0 - rcolor
  img[:,224-size:,0] = rcolor
+ img[:,224-(size*2):,0] = 1.0 - rcolor
  img[224-size:,:,0] = rcolor
+ img[224-(size*2):,:,0] = 1.0 - rcolor
  img[224-size:,:,0] = rcolor
+ img[224-(size*2):,:,0] = 1.0 - rcolor
 
  img[:size,:,1] = gcolor
  img[:,0:size,1] = gcolor
