@@ -23,8 +23,8 @@ bootstrap = Bootstrap(app)
 class NetForm(FlaskForm):
  size = StringField('Введите размер рамок', validators = [DataRequired()])
  rcolor = StringField('Выберите уровень красного для рамок. От 0.0 до 1.0', validators = [DataRequired()])
- gcolor = StringField('Выберите уровень зеленого для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
- bcolor = StringField('Выберите уровень синего для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
+ gcolor = StringField('Выберите уровень зеленого для рамок. От 0.0 до 1.0', validators = [DataRequired()])
+ bcolor = StringField('Выберите уровень синего для рамок. От 0.0 до 1.0', validators = [DataRequired()])
  upload = FileField('Загрузите изображение', validators=[
  FileRequired(),
  FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
@@ -48,10 +48,10 @@ def draw(filename,size,rcolor,gcolor,bcolor):
  ax.imshow(img, cmap='plasma')
  b = ax.pcolormesh(data, edgecolors='black', cmap='plasma')
  fig.colorbar(b, ax=ax)
- gr_path = "./static/newgr.png"
+ graph = "./static/graph.png"
  sns.displot(data)
  #plt.show()
- plt.savefig(gr_path)
+ plt.savefig(graph)
  plt.close()
  
  size=int(size)
@@ -102,10 +102,10 @@ def draw(filename,size,rcolor,gcolor,bcolor):
  
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
- new_path = "./static/new.png"
+ new = "./static/new.png"
  print(img)
- img.save(new_path)
- return new_path, gr_path
+ img.save(new)
+ return new, graph
 
 @app.route("/net",methods=['GET', 'POST'])
 def net():
