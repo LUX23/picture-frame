@@ -62,14 +62,6 @@ def draw(filename,size):
  
  size=int(size)
  
- r_out = float(r_out)
- g_out = float(g_out)
- b_out = float(b_out)
- 
- r_in = float(r_in)
- g_in = float(g_in)
- b_in = float(b_in)
- 
  height = 224
  width = 224
  img= np.array(img.resize((height,width)))/255.0
