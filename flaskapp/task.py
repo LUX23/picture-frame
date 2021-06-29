@@ -95,21 +95,6 @@ def draw(filename,size):
  img[:,224-size:,2] = b_out
  img[224-size:,:,2] = b_out
  
- img[:,0:size*2,0] = r_in
- img[:,224-size*2:,0] = r_in
- img[224-size*2:,:,0] = r_in
- img[224-size*2:,:,0] = r_in
-
- img[:size*2,:,1] = g_in
- img[:,0:size*2,1] = g_in
- img[:,224-size*2:,1] = g_in
- img[224-size*2:,:,1] = g_in
-
- img[:size*2,:,2] = b_in
- img[:,0:size*2,2] = b_in
- img[:,224-size*2:,2] = b_in
- img[224-size*2:,:,2] = b_in
- 
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
  new_path = "./static/new.png"
