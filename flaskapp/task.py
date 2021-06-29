@@ -4,22 +4,25 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
  return " <html><head></head> <body> Hello World! </body></html>"
+
 from flask import render_template
 from flask_wtf import FlaskForm,RecaptchaField
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 from flask_wtf.file import FileField, FileAllowed, FileRequired
+
 SECRET_KEY = 'secret'
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['RECAPTCHA_USE_SSL'] = False
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6Le3GjQbAAAAANa1sx3fbxugOBQlRDGjgP3nsKvu'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6Le3GjQbAAAAAJXjBb4kQb3bSPk3QRk8fqlHdHKz'
 app.config['RECAPTCHA_OPTIONS'] = {'theme': 'white'}
+
 from flask_bootstrap import Bootstrap
 bootstrap = Bootstrap(app)
 
 class NetForm(FlaskForm):
- size = StringField('Size', validators = [DataRequired()])
+ size = StringField('Введите размер рамок', validators = [DataRequired()])
 
  r_out = StringField('Выберите уровень красного для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
  g_out = StringField('Выберите уровень зеленого для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
@@ -29,17 +32,18 @@ class NetForm(FlaskForm):
  g_in = StringField('Выберите уровень зеленого для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
  b_in = StringField('Выберите уровень синего для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
 
- upload = FileField('Load image', validators=[
+ upload = FileField('Загрузите изображение', validators=[
  FileRequired(),
  FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
  recaptcha = RecaptchaField()
- submit = SubmitField('Send')
+ submit = SubmitField('Отправить')
 from werkzeug.utils import secure_filename
 import os
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 def draw(filename,size):
  print(filename)
  img= Image.open(filename)
@@ -69,6 +73,7 @@ def draw(filename,size):
  print(img)
  img.save(new_path)
  return new_path, gr_path
+
 @app.route("/net",methods=['GET', 'POST'])
 def net():
  form = NetForm()
@@ -81,5 +86,6 @@ def net():
   form.upload.data.save(filename)
   newfilename, grname = draw(filename,sz)
  return render_template('net.html',form=form,image_name=newfilename,gr_name=grname)
+
 if __name__ == "__main__":
  app.run(host='127.0.0.1',port=5000)
