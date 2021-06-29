@@ -32,7 +32,7 @@ class NetForm(FlaskForm):
  g_in = StringField('Выберите уровень зеленого для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
  b_in = StringField('Выберите уровень синего для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
  
- upload = FileField('Load image', validators=[
+ upload = FileField('Загрузить изображение', validators=[
  FileRequired(),
  FileAllowed(['jpg', 'png', 'jpeg'], 'Только изображения!')])
  recaptcha = RecaptchaField()
