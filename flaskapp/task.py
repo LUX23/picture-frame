@@ -47,6 +47,7 @@ import seaborn as sns
 def draw(filename,size):
  print(filename)
  img= Image.open(filename)
+ 
  fig = plt.figure(figsize=(6, 4))
  ax = fig.add_subplot()
  data = np.random.randint(0, 255, (100, 100))
@@ -58,15 +59,27 @@ def draw(filename,size):
  #plt.show()
  plt.savefig(gr_path)
  plt.close()
+ 
  size=int(size)
+ 
+ r_out = float(r_out)
+ g_out = float(g_out)
+ b_out = float(b_out)
+ 
+ r_in = float(r_in)
+ g_in = float(g_in)
+ b_in = float(b_in)
+ 
  height = 224
  width = 224
  img= np.array(img.resize((height,width)))/255.0
  print(size)
+ 
  img[:size,:,1] = 1
  img[:,0:size,1] = 1
  img[:,224-size:,1] = 1
  img[224-size:,:,1] = 1
+ 
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
  new_path = "./static/new.png"
