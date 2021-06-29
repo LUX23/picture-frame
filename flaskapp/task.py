@@ -24,13 +24,9 @@ bootstrap = Bootstrap(app)
 class NetForm(FlaskForm):
  size = StringField('Введите размер рамок', validators = [DataRequired()])
 
- r_out = StringField('Выберите уровень красного для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
- g_out = StringField('Выберите уровень зеленого для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
- b_out = StringField('Выберите уровень синего для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
-
- r_in = StringField('Выберите уровень красного для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
- g_in = StringField('Выберите уровень зеленого для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
- b_in = StringField('Выберите уровень синего для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
+ rcolor = StringField('Выберите уровень красного для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
+ gcolor = StringField('Выберите уровень зеленого для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
+ bcolor = StringField('Выберите уровень синего для рамокк. От 0.0 до 1.0', validators = [DataRequired()])
 
  upload = FileField('Загрузите изображение', validators=[
  FileRequired(),
@@ -61,34 +57,34 @@ def draw(filename,size):
  plt.close()
  
  size=int(size)
- r_out = float(r_out)
- g_out = float(g_out)
- b_out = float(b_out)
+ rcolor = float(rcolor)
+ gcolor = float(gcolor)
+ bcolor = float(bcolor)
  
  height = 224
  width = 224
  img= np.array(img.resize((height,width)))/255.0
  print(size)
  
- img[:size,:,:] = 0
- img[:,0:size,:] = 0
- img[:,224-size:,:] = 0
- img[224-size:,:,:] = 0
+ img[:size,:,1] = 1
+ img[:,0:size,1] = 1
+ img[:,224-size:,1] = 1
+ img[224-size:,:,1] = 1
  
- img[:,0:size,0] = r_out
- img[:,224-size:,0] = r_out
- img[224-size:,:,0] = r_out
- img[224-size:,:,0] = r_out
+ img[:,0:size,0] = rcolor
+ img[:,224-size:,0] = rcolor
+ img[224-size:,:,0] = rcolor
+ img[224-size:,:,0] = rcolor
 
- img[:size,:,1] = g_out
- img[:,0:size,1] = g_out
- img[:,224-size:,1] = g_out
- img[224-size:,:,1] = g_out
+ img[:size,:,1] = gcolor
+ img[:,0:size,1] = gcolor
+ img[:,224-size:,1] = gcolor
+ img[224-size:,:,1] = gcolor
 
- img[:size,:,2] = b_out
- img[:,0:size,2] = b_out
- img[:,224-size:,2] = b_out
- img[224-size:,:,2] = b_out
+ img[:size,:,2] = bcolor
+ img[:,0:size,2] = bcolor
+ img[:,224-size:,2] = bcolor
+ img[224-size:,:,2] = bcolor
  
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
@@ -107,9 +103,9 @@ def net():
   filename = os.path.join('./static', secure_filename(form.upload.data.filename))
   
   sz=form.size.data
-  sr=form.r_out.data
-  sg=form.g_out.data
-  sb=form.b_out.data
+  sr=form.rcolor.data
+  sg=form.gcolor.data
+  sb=form.bcolor.data
   
   form.upload.data.save(filename)
   newfilename, grname = draw(filename,sz,sr,sg,sb)
