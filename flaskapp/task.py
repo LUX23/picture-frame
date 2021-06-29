@@ -28,10 +28,6 @@ class NetForm(FlaskForm):
  g_out = StringField('Выберите уровень зеленого для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
  b_out = StringField('Выберите уровень синего для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
  
- r_in = StringField('Выберите уровень красного для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
- g_in = StringField('Выберите уровень зеленого для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
- b_in = StringField('Выберите уровень синего для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
- 
  upload = FileField('Загрузить изображение', validators=[
  FileRequired(),
  FileAllowed(['jpg', 'png', 'jpeg'], 'Только изображения!')])
@@ -65,8 +61,6 @@ def draw(filename,size):
  r_out = float(r_out)
  g_out = float(g_out)
  b_out = float(b_out)
- 
-
  
  height = 224
  width = 224
