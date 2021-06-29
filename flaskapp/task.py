@@ -52,7 +52,7 @@ print(size)
 img[:size,:,1] = 1
 img[:,0:size,1] = 1
 img[:,224-size:,1] = 1
-img[224-size:,:,1] = 116
+img[224-size:,:,1] = 1
 img = Image.fromarray((img * 255).astype(np.uint8))
 print(img)
 new = "./static/new.png"
