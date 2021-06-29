@@ -63,12 +63,11 @@ def draw(filename,size,rcolor,gcolor,bcolor):
  width = 224
  img= np.array(img.resize((height,width)))/255.0
  print(size)
- print(rcolor)
  
- img[:size,:,:] = 0
- img[:,0:size,:] = 0
- img[:,224-size:,:] = 0
- img[224-size:,:,:] = 0
+ img[:(size*2),:,:] = 0
+ img[:,0:(size*2),:] = 0
+ img[:,224-(size/2):,:] = 0
+ img[224-(size/2):,:,:] = 0
  
  img[:,0:size,0] = rcolor
  img[:,224-size:,0] = rcolor
