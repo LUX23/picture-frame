@@ -23,6 +23,15 @@ bootstrap = Bootstrap(app)
 
 class NetForm(FlaskForm):
  size = StringField('Size', validators = [DataRequired()])
+ 
+ r_out = StringField('Выберите уровень красного для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
+ g_out = StringField('Выберите уровень зеленого для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
+ b_out = StringField('Выберите уровень синего для внешней рамки. От 0.0 до 1.', validators = [DataRequired()])
+ 
+ r_in = StringField('Выберите уровень красного для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
+ g_in = StringField('Выберите уровень зеленого для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
+ b_in = StringField('Выберите уровень синего для внутренней рамки. От 0.0 до 1.', validators = [DataRequired()])
+ 
  upload = FileField('Load image', validators=[
  FileRequired(),
  FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
