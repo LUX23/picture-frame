@@ -70,10 +70,25 @@ def draw(filename,size):
  img= np.array(img.resize((height,width)))/255.0
  print(size)
  
- img[:size,:,1] = r_out
- img[:,0:size,1] = r_out
- img[:,224-size:,1] = r_out
- img[224-size:,:,1] = r_out
+ img[:size,:,:] = 0
+ img[:,0:size,:] = 0
+ img[:,224-size:,:] = 0
+ img[224-size:,:,:] = 0
+ 
+ img[:,0:size,0] = r_out
+ img[:,224-size:,0] = r_out
+ img[224-size:,:,0] = r_out
+ img[224-size:,:,0] = r_out
+
+ img[:size,:,1] = g_out
+ img[:,0:size,1] = g_out
+ img[:,224-size:,1] = g_out
+ img[224-size:,:,1] = g_out
+
+ img[:size,:,2] = b_out
+ img[:,0:size,2] = b_out
+ img[:,224-size:,2] = b_out
+ img[224-size:,:,2] = b_out
  
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
@@ -90,9 +105,14 @@ def net():
  grname=None
  if form.validate_on_submit():
   filename = os.path.join('./static', secure_filename(form.upload.data.filename))
+  
   sz=form.size.data
+  sr=form.r_out.data
+  sg=form.g_out.data
+  sb=form.b_out.data
+  
   form.upload.data.save(filename)
-  newfilename, grname = draw(filename,sz)
+  newfilename, grname = draw(filename,sz,sr,sg,sb)
  return render_template('net.html',form=form,image_name=newfilename,gr_name=grname)
 
 if __name__ == "__main__":
