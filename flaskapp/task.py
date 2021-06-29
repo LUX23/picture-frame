@@ -74,10 +74,42 @@ def draw(filename,size):
  width = 224
  img= np.array(img.resize((height,width)))/255.0
  print(size)
- img[:size,:,1] = 1
- img[:,0:size,1] = 1
- img[:,224-size:,1] = 1
- img[224-size:,:,1] = 1
+ 
+ img[:size,:,:] = 1
+ img[:,0:size,:] = 1
+ img[:,224-size:,:] = 1
+ img[224-size:,:,:] = 1
+ 
+ img[:,0:size,0] = r_out
+ img[:,224-size:,0] = r_out
+ img[224-size:,:,0] = r_out
+ img[224-size:,:,0] = r_out
+
+ img[:size,:,1] = g_out
+ img[:,0:size,1] = g_out
+ img[:,224-size:,1] = g_out
+ img[224-size:,:,1] = g_out
+
+ img[:size,:,2] = b_out
+ img[:,0:size,2] = b_out
+ img[:,224-size:,2] = b_out
+ img[224-size:,:,2] = b_out
+ 
+ img[:,0:size*2,0] = r_in
+ img[:,224-size*2:,0] = r_in
+ img[224-size*2:,:,0] = r_in
+ img[224-size*2:,:,0] = r_in
+
+ img[:size*2,:,1] = g_in
+ img[:,0:size*2,1] = g_in
+ img[:,224-size*2:,1] = g_in
+ img[224-size*2:,:,1] = g_in
+
+ img[:size*2,:,2] = b_in
+ img[:,0:size*2,2] = b_in
+ img[:,224-size*2:,2] = b_in
+ img[224-size*2:,:,2] = b_in
+ 
  img = Image.fromarray((img * 255).astype(np.uint8))
  print(img)
  new_path = "./static/new.png"
